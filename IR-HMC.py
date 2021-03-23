@@ -14,19 +14,19 @@ from datetime import datetime
 metodo = 0 # 0-Regressão Linar   |   1-Regressão Polinomial
 grau_polinomio = 3
 
-#nome_base = "Teste"
-#df = pd.read_csv("datasets_GO/cellcycle_GO/cellcycle_GO.train.test.csv")
-#df_hierarquia = pd.read_csv("datasets_GO/cellcycle_GO/hierarquia2.csv")
+nome_base = "Teste"
+df = pd.read_csv("datasets_GO/cellcycle_GO/cellcycle_GO.train.test.csv")
+df_hierarquia = pd.read_csv("datasets_GO/cellcycle_GO/hierarquia2.csv")
 
 #nome_base = "Cellcycle"
 #df = pd.read_csv("datasets_GO/cellcycle_GO/GOCellcycle(atributosFaltando).csv")
 #df_hierarquia = pd.read_csv("datasets_GO/cellcycle_GO/hierarquia_cellcycle.csv")
 #arquivo_divisao = "Helyane/GOCellcycleInstanciasTreinamento.txt"
 
-nome_base = "Church"
-df = pd.read_csv("Helyane/GOChurch(atributosFaltando).txt")
-df_hierarquia = pd.read_csv("datasets_GO/church_GO/hierarquia_church.csv")
-arquivo_divisao = "Helyane/GOChurchInstanciasTreinamento.txt"
+#nome_base = "Church"
+#df = pd.read_csv("Helyane/GOChurch(atributosFaltando).txt")
+#df_hierarquia = pd.read_csv("datasets_GO/church_GO/hierarquia_church.csv")
+#arquivo_divisao = "Helyane/GOChurchInstanciasTreinamento.txt"
 
 #nome_base = "Eisen"
 #df = pd.read_csv("Helyane/GOEisen(atributosFaltando).txt")
