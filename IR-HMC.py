@@ -11,17 +11,17 @@ import math
 from datetime import datetime
 
 # Parametrizações iniciais
-metodo = 0 # 0-Regressão Linar   |   1-Regressão Polinomial
-grau_polinomio = 3
+metodo = 1 # 0-Regressão Linar   |   1-Regressão Polinomial
+grau_polinomio = 6
 
-nome_base = "Teste"
-df = pd.read_csv("datasets_GO/cellcycle_GO/cellcycle_GO.train.test.csv")
-df_hierarquia = pd.read_csv("datasets_GO/cellcycle_GO/hierarquia2.csv")
+#nome_base = "Teste"
+#df = pd.read_csv("datasets_GO/cellcycle_GO/cellcycle_GO.train.test.csv")
+#df_hierarquia = pd.read_csv("datasets_GO/cellcycle_GO/hierarquia2.csv")
 
-#nome_base = "Cellcycle"
-#df = pd.read_csv("datasets_GO/cellcycle_GO/GOCellcycle(atributosFaltando).csv")
-#df_hierarquia = pd.read_csv("datasets_GO/cellcycle_GO/hierarquia_cellcycle.csv")
-#arquivo_divisao = "Helyane/GOCellcycleInstanciasTreinamento.txt"
+nome_base = "Cellcycle"
+df = pd.read_csv("datasets_GO/cellcycle_GO/GOCellcycle(atributosFaltando).csv")
+df_hierarquia = pd.read_csv("datasets_GO/cellcycle_GO/hierarquia_cellcycle.csv")
+arquivo_divisao = "Helyane/GOCellcycleInstanciasTreinamento.txt"
 
 #nome_base = "Church"
 #df = pd.read_csv("Helyane/GOChurch(atributosFaltando).txt")
@@ -76,8 +76,8 @@ def verifica_rotulos_ascendentes(base, rotulo, base_hierarquia):  # Verificaçã
         return (base[base['class'].str.contains(rotulo)])
 
 def correlacao(conjunto, indice_atributo_a, indice_atributo_b, metodo, grau):
-    x = conjunto.iloc[:, indice_atributo_a].values
-    y = conjunto.iloc[:, indice_atributo_b].values    
+    x = conjunto.fillna(0).iloc[:, indice_atributo_a].values
+    y = conjunto.fillna(0).iloc[:, indice_atributo_b].values    
 
     if (metodo == 0):        
         x = x.reshape(-1, 1)
@@ -296,7 +296,7 @@ while (coluna < df.iloc[0, :].size-1):
     coluna = coluna + 1
     print("Coluna concluída")        
 print(df)
-#normalizado = normalize(df) # normaliza dados
-#teste, treinamento = undo_split(arquivo_divisao, normalizado) # divide em trteinamento e teste
-#treinamento.to_csv(r'treinamento-'+nome_base+"-M"+str(quantidade_media)+"-R"+str(quantidade_regressao)+("-linear"if metodo==0 else "-polinomial_"+str(grau_polinomio))+'.csv', index=False, header=True) # salva nos arquivos correspondenttes
-#teste.to_csv(r'teste-'+nome_base+"-M"+str(quantidade_media)+"-R"+str(quantidade_regressao)+("-linear"if metodo==0 else "-polinomial_"+str(grau_polinomio))+'.csv', index=False, header=True)
+normalizado = normalize(df) # normaliza dados
+teste, treinamento = undo_split(arquivo_divisao, normalizado) # divide em trteinamento e teste
+treinamento.to_csv(r'treinamento-'+nome_base+"-M"+str(quantidade_media)+"-R"+str(quantidade_regressao)+("-linear"if metodo==0 else "-polinomial_"+str(grau_polinomio))+'.csv', index=False, header=True) # salva nos arquivos correspondenttes
+teste.to_csv(r'teste-'+nome_base+"-M"+str(quantidade_media)+"-R"+str(quantidade_regressao)+("-linear"if metodo==0 else "-polinomial_"+str(grau_polinomio))+'.csv', index=False, header=True)
