@@ -9,10 +9,11 @@ import array as arr
 from scipy import stats
 import math
 from datetime import datetime
+from sklearn import metrics
 
 # Parametrizações iniciais
 metodo = 1 # 0-Regressão Linar   |   1-Regressão Polinomial
-grau_polinomio = 6
+grau_polinomio = 3
 
 #nome_base = "Teste"
 #df = pd.read_csv("datasets_GO/cellcycle_GO/cellcycle_GO.train.test.csv")
@@ -75,6 +76,26 @@ def verifica_rotulos_ascendentes(base, rotulo, base_hierarquia):  # Verificaçã
     else:  # Caso o  rótulo ascendente possuir exemplos este é adicionado a variável de retorno
         return (base[base['class'].str.contains(rotulo)])
 
+def polyfit(x, y, degree):
+    results = {}
+
+    coeffs = np.polyfit(x, y, degree)
+
+     # Polynomial Coefficients
+    results['polynomial'] = coeffs.tolist()
+
+    # r-squared
+    p = np.poly1d(coeffs)
+    # fit values, and mean
+    yhat = p(x)                         # or [p(z) for z in x]
+    ybar = np.sum(y)/len(y)          # or sum(y)/len(y)
+    ssreg = np.sum((yhat-ybar)**2)   # or sum([ (yihat - ybar)**2 for yihat in yhat])
+    sstot = np.sum((y - ybar)**2)    # or sum([ (yi - ybar)**2 for yi in y])
+    results['determination'] = ssreg / sstot
+
+    return results
+
+
 def correlacao(conjunto, indice_atributo_a, indice_atributo_b, metodo, grau):
     x = conjunto.fillna(0).iloc[:, indice_atributo_a].values
     y = conjunto.fillna(0).iloc[:, indice_atributo_b].values    
@@ -88,16 +109,9 @@ def correlacao(conjunto, indice_atributo_a, indice_atributo_b, metodo, grau):
             return 0
         else:
             return indice
-    if (metodo == 1):
-        x = x.reshape(-1, 1)
-        lin_reg_2 = LinearRegression()
-
-        poly_reg = PolynomialFeatures(degree=grau)
-        x_poly = poly_reg.fit_transform(x)                
-
-        lin_reg_2.fit(x_poly,y)
+    if (metodo == 1): # usa método específico
+        indice = polyfit(x,y,grau)['determination'].round(5)
         
-        indice = lin_reg_2.score(x_poly, y)
         if indice == 1:
             return 0
         else:
